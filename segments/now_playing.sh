@@ -277,5 +277,7 @@ __np_spotify_wine() {
 
 __np_spotify_cygwin() {
     np=$(tasklist /v /fi "IMAGENAME eq Spotify.exe" /fo csv | iconv -f big5 | sed -n '2p' | awk ' BEGIN {FS=","} {print $10}' | cut -d "\"" -f 2)
-    echo "$np"
+    if !([[ $np == "Spotify" ]]); then
+        echo "$np"
+    fi
 }
