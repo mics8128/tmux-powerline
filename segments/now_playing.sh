@@ -13,7 +13,7 @@ TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR_DEFAULT="♫"
 
 generate_segmentrc() {
 	read -d '' rccontents  << EORC
-# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine, spotify_cygwin}.
+# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine}.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER=""
 # Maximum output length.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN="${TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN_DEFAULT}"
@@ -61,7 +61,6 @@ run_segment() {
 		"rhythmbox")  np=$(__np_rhythmbox) ;;
 		"spotify")  np=$(__np_spotify) ;;
 		"spotify_wine")  np=$(__np_spotify_native) ;;
-		"spotify_cygwin")  np=$(__np_spotify_cygwin) ;;
 		*)
 			echo "Unknown music player type [${TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER}]";
 			return 1
@@ -260,6 +259,11 @@ __np_spotify() {
 		fi
 	elif shell_is_osx; then
 		np=$(${TMUX_POWERLINE_DIR_SEGMENTS}/np_spotify_mac.script)
+    elif shell_is_cygwin; then
+        np=$(tasklist /v /fi "IMAGENAME eq Spotify.exe" /fo csv | iconv -f big5 | sed -n '2p' | awk ' BEGIN {FS=","} {print $10}' | cut -d "\"" -f 2)
+        if ([[ $np == "Spotify" ]]); then
+            np=""
+        fi
 	fi
 	echo "$np"
 }
@@ -275,9 +279,3 @@ __np_spotify_wine() {
 }
 
 
-__np_spotify_cygwin() {
-    np=$(tasklist /v /fi "IMAGENAME eq Spotify.exe" /fo csv | iconv -f big5 | sed -n '2p' | awk ' BEGIN {FS=","} {print $10}' | cut -d "\"" -f 2)
-    if !([[ $np == "Spotify" ]]); then
-        echo "$np"
-    fi
-}
