@@ -36,7 +36,11 @@ run_segment() {
 	fi
 
 	if [ -n "$wan_ip" ]; then
-		echo "ⓦ ${wan_ip}"
+        if shell_is_cygwin ; then
+            echo "W ${wan_ip}"
+        else
+            echo "ⓦ ${wan_ip}"
+        fi
 	fi
 
 	return 0

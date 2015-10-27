@@ -9,12 +9,15 @@ case "$(ostype)" in
 	*'linux'*	) SHELL_PLATFORM='linux'	;;
 	*'darwin'*	) SHELL_PLATFORM='osx'		;;
 	*'bsd'*		) SHELL_PLATFORM='bsd'		;;
+	*'cygwin'*      ) SHELL_PLATFORM='cygwin'       ;;
 esac
 
 shell_is_linux() { [[ $SHELL_PLATFORM == 'linux' || $SHELL_PLATFORM == 'bsd' ]]; }
 shell_is_osx()   { [[ $SHELL_PLATFORM == 'osx' ]]; }
 shell_is_bsd()   { [[ $SHELL_PLATFORM == 'bsd' || $SHELL_PLATFORM == 'osx' ]]; }
+shell_is_cygwin()   { [[ $SHELL_PLATFORM == 'cygwin' ]]; }
 
 export -f shell_is_linux
 export -f shell_is_osx
 export -f shell_is_bsd
+export -f shell_is_cygwin

@@ -10,7 +10,9 @@ run_segment() {
 			done
 			[[ -n "${lan_ip}" ]] && break
 		done
-	else
+    elif shell_is_cygwin ; then
+        lan_ip="$(ipconfig.exe -all | iconv -f big5 | grep -i "IPv4" | head -n 1 | grep -Eho "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")"
+    else
 		# Get the names of all attached NICs.
 		all_nics="$(ip addr show | cut -d ' ' -f2 | tr -d :)"
 		all_nics=(${all_nics[@]//lo/})	 # Remove lo interface.
@@ -27,6 +29,10 @@ run_segment() {
 		done
 	fi
 
-	echo "ⓛ ${lan_ip-N/a}"
+    if shell_is_cygwin ; then
+        echo "L ${lan_ip-N/a}"
+    else
+        echo "ⓛ ${lan_ip-N/a}"
+    fi
 	return 0
 }
