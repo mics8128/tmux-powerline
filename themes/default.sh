@@ -27,7 +27,6 @@ if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 		"hostname 33 0" \
 		#"ifstat 30 255" \
 		#"ifstat_sys 30 255" \
-		#"lan_ip 24 255 ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}" \
 		#"wan_ip 24 255" \
 		#"vcs_branch 29 88" \
 		#"vcs_compare 60 255" \
@@ -35,6 +34,7 @@ if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 		#"vcs_modified 9 255" \
 		#"vcs_others 245 0" \
 		"cpu_percentage 237 167" \
+		"lan_ip 24 255" \
 	)
 fi
 
