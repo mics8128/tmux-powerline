@@ -118,7 +118,7 @@ __count_gmail() {
 	let interval=60*$TMUX_POWERLINE_SEG_MAILCOUNT_GMAIL_INTERVAL
 	if shell_is_osx || shell_is_bsd; then
 		last_update=$(stat -f "%m" ${tmp_file})
-	elif shell_is_linux; then
+	elif shell_is_linux || shell_is_cygwin; then
 		last_update=$(stat -c "%Y" ${tmp_file})
 	fi
 	if [ "$(( $(date +"%s") - ${last_update} ))" -gt "$interval" ] || [ "$override_passget" == true ]; then
